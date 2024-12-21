@@ -6,10 +6,10 @@ const ajv = new Ajv()
 test('GET Single User', async({request}) => {
 
     const response = await request.get('https://reqres.in/api/users/2');
-    expect(response.status()).toBe(200);
 
     const responseData = await response.json();
 
+    expect(response.status()).toBe(200);
     expect(responseData.data.id).toBe(2);
     expect(responseData.data.email).toBe("janet.weaver@reqres.in");
     expect(responseData.data.first_name).toBe("Janet");
@@ -30,19 +30,23 @@ test('GET Single User', async({request}) => {
 
 test('POST Single User', async({request}) => {
 
-    const userData = {
+    const bodyData = {
         name: "morpheus",
         job: "leader"
     };
 
+    const headerData = {
+        Accept: 'application/json'
+    }
+
     const response = await request.post('https://reqres.in/api/users', {
-        data: userData
+        headers: headerData,
+        data: bodyData
     });
-    
-    expect(response.status()).toBe(201);
 
     const responseData = await response.json();
 
+    expect(response.status()).toBe(201);
     expect(responseData.name).toBe("morpheus");
     expect(responseData.job).toBe("leader");
     expect(responseData).toHaveProperty('id');
@@ -68,19 +72,23 @@ test('DELETE Single User', async({request}) => {
 
 test('PUT Single User', async({request}) => {
 
-    const userData = {
+    const bodyData = {
         name: "morpheus",
         job: "zion resident"
     };
 
+    const headerData = {
+        Accept: 'application/json'
+    }
+
     const response = await request.put('https://reqres.in/api/users/2', {
-        data: userData
+        headers: headerData,
+        data: bodyData
     });
-    
-    expect(response.status()).toBe(200);
 
     const responseData = await response.json();
 
+    expect(response.status()).toBe(200);
     expect(responseData.name).toBe("morpheus");
     expect(responseData.job).toBe("zion resident");
     expect(responseData).toHaveProperty('updatedAt');
